@@ -4,23 +4,23 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseModule } from 'src/database/database.module';
 import { EncryptionModule } from 'src/encryption/encryption.module';
 import { EncryptionService } from 'src/encryption/encryption.service';
-import CreateUserDto from 'src/user/dto/create.user.dto';
 import { UserModule } from 'src/user/user.module';
 import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
-import * as jwt from 'jsonwebtoken';
 import AuthenticatedUser from './types/authenticated.user';
+import CreateUserDto from 'src/user/dto/create.user.dto';
+import * as jwt from 'jsonwebtoken';
 
 describe('AuthService', () => {
     let service: AuthService;
     const mockUser = {
-        email: 'register_test_user@test.com',
+        email: 'gmail@gmail.com',
         name: 'Register Test User',
         password: '123456789'
     }
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
                 UserModule,
@@ -61,7 +61,7 @@ describe('AuthService', () => {
         expect(decoded.email).toEqual(mockUser.email);
         expect(decoded.name).toEqual(mockUser.name);
 
-        const validated = await service.validate(decoded)
+        const validated = await service.validate(decoded);
 
         expect(validated.email).toEqual(mockUser.email);
         expect(validated.name).toEqual(mockUser.name);

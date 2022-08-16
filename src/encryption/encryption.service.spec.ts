@@ -4,7 +4,8 @@ import { EncryptionService } from './encryption.service';
 describe('EncryptionService', () => {
   let service: EncryptionService;
   const secret = 'test-string';
-  beforeEach(async () => {
+  
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [EncryptionService],
     }).compile();

@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseModule } from 'src/database/database.module';
 import { EncryptionModule } from 'src/encryption/encryption.module';
-import CreateUserDto from './dto/create.user.dto';
 import { UserService } from './user.service';
+import CreateUserDto from './dto/create.user.dto';
 
-describe('TestService', () => {
+describe('UserService', () => {
     let service: UserService;
     const mockUser = {
         email: 'test@testemail.com',
@@ -12,7 +12,7 @@ describe('TestService', () => {
         password: '123456789'
     }
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [DatabaseModule, EncryptionModule],
             providers: [UserService],
@@ -25,7 +25,7 @@ describe('TestService', () => {
         expect(service).toBeDefined();
     });
 
-    test('Create create method and email uniqueness', async () => {
+    test('Create method and email uniqueness', async () => {
         const user = new CreateUserDto();
 
         Object.assign(user, mockUser);
@@ -36,14 +36,10 @@ describe('TestService', () => {
         expect(createdUser.name).toEqual(mockUser.name);
         expect(createdUser.password).toEqual(mockUser.password);
 
-        try {
-            await service.create(mockUser);
-        } catch (e) {
-            expect(e.message).toEqual('Email already taken !');
-        }
+        expect(async () => await service.create(mockUser)).rejects.toThrow('Email already taken !');
     });
 
-    test('Create find method', async () => {
+    test('Test find method', async () => {
         const findedUser = await service.find({
             email: mockUser.email
         });
