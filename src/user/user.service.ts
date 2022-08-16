@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import CreateUserDto from './dto/create.user.dto';
-import * as bcrypt from 'bcrypt';
 import { EncryptionService } from 'src/encryption/encryption.service';
+import CreateUserDto from './dto/create.user.dto';
 
 @Injectable()
 export class UserService {
