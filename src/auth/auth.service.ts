@@ -13,12 +13,12 @@ export class AuthService {
         private readonly encryptionService: EncryptionService,
     ) { }
 
-    async login(email: string, password: string) {
+    async login(email: string, pass: string) {
         const user = await this.userService.find({ email })
 
-        if (!user || !await this.encryptionService.compare(password, user.password)) return;
+        if (!user || !await this.encryptionService.compare(pass, user.password)) return;
 
-        const { id, ...payload } = user;
+        const { id, password, ...payload } = user;
 
         return this.jwtService.sign(payload);
     }
